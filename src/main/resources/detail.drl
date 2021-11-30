@@ -1,0 +1,57 @@
+package KieRule;
+import com.ofss.pojo;
+import com.ofss.detailscontroller;
+
+rule "Allow"
+
+when
+p1Object : com.ofss.detailscontroller($deviceallowed:deviceallowed, $loginallowed:loginallowed);
+devicevalid : String() from $deviceallowed
+loginvalid: String() from $loginallowed
+userObj : com.ofss.pojo(device==devicevalid && login==loginvalid)
+then
+userObj.setMsg("proceed to login");
+end;
+
+rule "Block"
+
+when
+p1Object : com.ofss.detailscontroller($deviceblocked:deviceblocked, $loginblocked:loginblocked);
+deviceInvalid : String() from $deviceblocked
+loginInvalid : String() from $loginblocked
+userObj : com.ofss.pojo(device==deviceInvalid || login==loginInvalid)
+then
+userObj.setMsg("deny this user");
+end;
+
+rule "Otp"
+
+when
+p1Object : com.ofss.detailscontroller($OTPList:OTPList);
+loginotp : String() from $OTPList
+userObj : com.ofss.pojo(login==loginotp)
+then
+userObj.setMsg("user on otp list,give a challenge");
+end;
+
+rule "HighFocus"
+
+when
+p1Object : com.ofss.detailscontroller($HighFocus:HighFocus);
+loginonfocus : String() from $HighFocus
+userObj : com.ofss.pojo(login==loginonfocus)
+then
+userObj.setMsg("user on high focus, give a challenge");
+end;
+
+rule "newUser"
+
+when
+p1Object : com.ofss.detailscontroller($CountryList:CountryList, $deviceblocked:deviceblocked, $deviceallowed:deviceallowed);
+countrycode : String() from $CountryList
+deviceIn: String() from $deviceblocked
+deviceva: String() from $deviceallowed
+userObj : com.ofss.pojo(Country==countrycode && device!=deviceIn && device!=deviceva)
+then
+userObj.setMsg("new user,delay this user");
+end;
