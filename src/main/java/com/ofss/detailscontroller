@@ -1,0 +1,94 @@
+package com.ofss;
+
+import com.ofss.pojo;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.kie.api.runtime.KieSession;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class detailscontroller extends pojo {
+	@Autowired
+	private KieSession session;
+	ArrayList<String> deviceallowed = new ArrayList<String>();
+	List<String> deviceblocked = new ArrayList<String>();
+	
+	ArrayList<String> loginallowed = new ArrayList<String>();
+	List<String> loginblocked = new ArrayList<String>();
+	
+	List<String> OTPList = Arrays.asList("6743","435");
+	List<String> HighFocus =Arrays.asList("897","439","1984");
+	List<String> CountryList =Arrays.asList("5612","6739","6749");
+	
+	@PostMapping("/detail")
+	public String orderNow(@RequestBody detailscontroller p1) {
+		session.insert(p1);
+		session.fireAllRules();
+		return p1.getMsg();
+	}
+
+	public ArrayList<String> getDeviceallowed() {
+		return deviceallowed;
+	}
+
+	public void setDeviceallowed(ArrayList<String> deviceallowed) {
+		this.deviceallowed = deviceallowed;
+	}
+
+	public List<String> getDeviceblocked() {
+		return deviceblocked;
+	}
+
+	public void setDeviceblocked(List<String> deviceblocked) {
+		this.deviceblocked = deviceblocked;
+	}
+
+	public ArrayList<String> getLoginallowed() {
+		return loginallowed;
+	}
+
+	public void setLoginallowed(ArrayList<String> loginallowed) {
+		this.loginallowed = loginallowed;
+	}
+
+	public List<String> getLoginblocked() {
+		return loginblocked;
+	}
+
+	public void setLoginblocked(List<String> loginblocked) {
+		this.loginblocked = loginblocked;
+	}
+
+	public List<String> getOTPList() {
+		return OTPList;
+	}
+
+	public void setOTPList(List<String> oTPList) {
+		OTPList = oTPList;
+	}
+
+	public List<String> getHighFocus() {
+		return HighFocus;
+	}
+
+	public void setHighFocus(List<String> highFocus) {
+		HighFocus = highFocus;
+	}
+
+	public List<String> getCountryList() {
+		return CountryList;
+	}
+
+	public void setCountryList(List<String> countryList) {
+		CountryList = countryList;
+	}
+	
+	
+	
+}
